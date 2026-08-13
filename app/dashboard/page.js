@@ -1,3 +1,4 @@
+import "../../components/dashboard.css";
 import DashboardShell from "../../components/dashboard-shell";
 
 export const metadata = {
