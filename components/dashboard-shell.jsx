@@ -13,17 +13,18 @@ const nav = [
 ];
 
 function Sidebar({ onNavigate, collapsed = false, onToggle }) {
+  const hidden = collapsed ? { display: "none" } : undefined;
   return <aside className={`admin-sidebar ${collapsed ? "collapsed" : ""}`}>
-    <div className="admin-brand">
+    <div className="admin-brand" style={collapsed ? { justifyContent: "center", paddingLeft: 0, paddingRight: 0 } : undefined}>
       <span className="admin-brand-mark"><Coffee size={17}/></span>
-      <div className="admin-brand-copy"><strong>Cappuccino</strong><small>Admin studio</small></div>
-      {onToggle && <button className="sidebar-collapse" onClick={onToggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title={collapsed ? "Expand sidebar" : "Collapse sidebar"}>{collapsed ? <ChevronRight size={17}/> : <ChevronLeft size={17}/>}</button>}
+      <div className="admin-brand-copy" style={hidden}><strong>Cappuccino</strong><small>Admin studio</small></div>
+      {onToggle && <button className="sidebar-collapse" style={collapsed ? { position: "absolute", right: -8, top: 4, background: "var(--paper)" } : undefined} onClick={onToggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title={collapsed ? "Expand sidebar" : "Collapse sidebar"}>{collapsed ? <ChevronRight size={17}/> : <ChevronLeft size={17}/>}</button>}
     </div>
-    <div className="admin-nav-label">Workspace</div>
-    <nav>{nav.map(([label, Icon], i) => <button key={label} className={i === 0 ? "admin-nav active" : "admin-nav"} onClick={() => onNavigate(label)} title={collapsed ? label : undefined}>
-      <Icon size={18}/><span className="nav-text">{label}</span>{label === "Orders" && <b>8</b>}
+    <div className="admin-nav-label" style={hidden}>Workspace</div>
+    <nav>{nav.map(([label, Icon], i) => <button key={label} className={i === 0 ? "admin-nav active" : "admin-nav"} onClick={() => onNavigate(label)} title={collapsed ? label : undefined} style={collapsed ? { justifyContent: "center", paddingLeft: 0, paddingRight: 0 } : undefined}>
+      <Icon size={18}/><span className="nav-text" style={hidden}>{label}</span>{label === "Orders" && <b style={collapsed ? { position: "absolute", marginLeft: 34, marginTop: -22, fontSize: 8, padding: "2px 5px" } : undefined}>8</b>}
     </button>)}</nav>
-    <div className="sidebar-bottom"><div className="sidebar-note"><span>☕</span><div className="sidebar-note-copy"><strong>Roast of the day</strong><small>Colombia · Honey</small></div></div></div>
+    <div className="sidebar-bottom"><div className="sidebar-note" style={collapsed ? { justifyContent: "center", padding: 10 } : undefined}><span>☕</span><div className="sidebar-note-copy" style={hidden}><strong>Roast of the day</strong><small>Colombia · Honey</small></div></div></div>
   </aside>;
 }
 
@@ -38,7 +39,7 @@ export default function DashboardShell() {
   const notify = (text) => { setToast(text); window.clearTimeout(window.__capToast); window.__capToast = window.setTimeout(() => setToast(""), 2600); };
 
   return <div className={`${dark ? "admin-app dark" : "admin-app"} ${collapsed ? "sidebar-collapsed" : ""}`}>
-    <div className="desktop-sidebar"><Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} onNavigate={(x) => notify(`${x} selected`)} /></div>
+    <div className="desktop-sidebar" style={{ width: collapsed ? 82 : 264, flexBasis: collapsed ? 82 : 264, transition: "width .25s ease, flex-basis .25s ease" }}><Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} onNavigate={(x) => notify(`${x} selected`)} /></div>
 
     <Sheet>
       <div className="mobile-admin-bar">
